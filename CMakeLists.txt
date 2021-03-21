@@ -4,15 +4,15 @@ cmake_minimum_required(VERSION 2.8.11)
 if (WIN32) # Include win64 platforms
 
   find_package(OpenGL REQUIRED)
-  find_library(GLEW NAMES glew32s PATHS external/lib/x64)
-  find_library(GLFW NAMES glfw3 PATHS external/lib)
+  find_library(GLEW NAMES glew32s PATHS ../../external/lib/x64)
+  find_library(GLFW NAMES glfw3 PATHS ../../external/lib)
 
   set(INCLUDE_DIRS
-     external/include )
+     ../../external/include )
 
   set(LIBRARY_DIRS
     lib
-    external/lib)
+    ../../external/lib)
 
   set(CMAKE_CXX_STANDARD 11)
   set(CMAKE_CXX_FLAGS 
@@ -41,7 +41,7 @@ elseif (APPLE)
 
   set(INCLUDE_DIRS
     /System/Library/Frameworks
-    external/include
+    ../../external/include
     /usr/local/include)
 
   set(CORE ${GLFW} ${GL_LIB})
@@ -56,10 +56,10 @@ elseif (UNIX)
   FIND_PACKAGE(GLEW REQUIRED)
 
   set(INCLUDE_DIRS
-    external/include)
+    ../../external/include)
 
   set(LIBRARY_DIRS
-    external/lib
+    ../../external/lib
     /usr/X11R6/lib
     /usr/local/lib
     lib)
@@ -72,6 +72,7 @@ endif()
 include_directories(${INCLUDE_DIRS})
 link_directories(${LIBRARY_DIRS})
 
+
 set(SOURCES 
     src/AGL.h
     src/AGLM.h
@@ -79,6 +80,17 @@ set(SOURCES
     src/ppm_image.h
     src/ppm_image.cpp
     src/main.cpp)
+
+set(RT_SOURCES
+    src/hittable.h
+    src/hittable_list.h
+    src/material.h
+    src/camera.h
+    src/ray.h
+    src/plane.h
+    src/box.h
+    src/triangle.h
+    src/sphere.h)
 
 add_executable(gradient src/gradient.cpp src/Ray.h ${SOURCES})
 target_link_libraries(gradient ${CORE})
@@ -88,3 +100,17 @@ target_link_libraries(silhouette ${CORE})
 
 add_executable(normals src/normals.cpp src/Ray.h ${SOURCES})
 target_link_libraries(normals ${CORE})
+
+add_executable(basic src/basic.cpp ${RT_SOURCES} ${SOURCES})
+target_link_libraries(basic ${CORE})
+
+add_executable(intesection_tests src/intesection_tests.cpp src/AGLM.h src/AGLM.cpp ${RT_SOURCES}) 
+target_link_libraries(intesection_tests ${CORE})
+
+add_executable(raytracer src/raytracer.cpp ${RT_SOURCES} ${SOURCES})
+target_link_libraries(raytracer ${CORE})
+
+add_executable(materials src/materials.cpp ${RT_SOURCES} ${SOURCES})
+target_link_libraries(materials ${CORE})
+
+

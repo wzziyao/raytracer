@@ -4,6 +4,7 @@
 #define RAY_H
 
 #include "AGLM.h"
+#include <sstream>
 
 class ray {
 public:
@@ -18,6 +19,13 @@ public:
 
    glm::point3 at(float t) const {
       return orig + t*dir;
+   }
+
+   std::string str() const {
+      std::ostringstream ss;
+      ss << "position: " << orig << std::endl;
+      ss << "direction: " << dir << std::endl;
+      return ss.str();
    }
 
 public:

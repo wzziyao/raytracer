@@ -82,12 +82,10 @@ int main(int argc, char** argv)
     // Tell GLFW to call our callback fun when a key is pressed
     glfwSetKeyCallback(window, key_callback);
 
-#ifndef APPLE
     if (glewInit() != GLEW_OK)
     {
         return -1;
     }
-#endif
 
     GLint result;
     GLuint vshaderId = glCreateShader(GL_VERTEX_SHADER);

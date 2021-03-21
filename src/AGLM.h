@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/norm.hpp>
+#include <glm/gtc/epsilon.hpp>
 #include <limits>
 #include <memory>
 #include <random>

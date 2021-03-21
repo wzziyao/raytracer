@@ -1,3 +1,4 @@
+// alinen, 2021
 #include "ppm_image.h"
 #include <cassert>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
