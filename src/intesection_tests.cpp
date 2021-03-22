@@ -6,6 +6,7 @@
 #include "box.h"
 #include "plane.h"
 #include "triangle.h"
+#include "hittable.h"
 
 using namespace glm;
 using namespace std;
@@ -51,7 +52,7 @@ void test_sphere(const sphere& s, const ray& r, bool hits, const hit_record& des
 int main(int argc, char** argv)
 {
    shared_ptr<material> empty = 0; 
-   hit_record none{ vec3(0), vec3(0), -1.0f, false, empty};
+   hit_record none = hit_record{ point3(0), point3(0), -1.0f, false, empty};
 
    sphere s(point3(0), 2.0f, empty);
    test_sphere(s, 

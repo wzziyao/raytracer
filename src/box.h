@@ -16,6 +16,7 @@ public:
    virtual bool hit(const ray& r, hit_record& rec) const override
    {
       // todo
+      return false;
    }
 
 public:
