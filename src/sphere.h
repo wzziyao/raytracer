@@ -19,27 +19,57 @@ public:
    std::shared_ptr<material> mat_ptr;
 };
 
+// bool sphere::hit(const ray& r, hit_record& rec) const {
+//    glm::vec3 oc = r.origin() - center;
+//    float a = glm::dot(r.direction(), r.direction());
+//    float half_b = glm::dot(oc, r.direction());
+//    float c = glm::length2(oc) - radius*radius;
+
+//    float discriminant = half_b*half_b - a*c;
+//    if (discriminant < 0) return false;
+//    float sqrtd = sqrt(discriminant);
+
+//    float t = (-half_b - sqrtd) / a;
+//    if (t < 0) t = (-half_b + sqrtd) / a;
+//    if (t < 0) return false;
+
+//    // save relevant data in hit record
+//    rec.t = t; // save the time when we hit the object
+//    rec.p = r.at(t); // ray.origin + t * ray.direction
+//    rec.mat_ptr = mat_ptr; 
+
+//    // save normal
+//    glm::vec3 outward_normal = normalize(rec.p - center); // compute unit length normal
+//    rec.set_face_normal(r, outward_normal);
+
+//    return true;
+// }
+
+
+// geometric intersection test
 bool sphere::hit(const ray& r, hit_record& rec) const {
-   glm::vec3 oc = r.origin() - center;
-   float a = glm::dot(r.direction(), r.direction());
-   float half_b = glm::dot(oc, r.direction());
-   float c = glm::length2(oc) - radius*radius;
+   glm::vec3 el = center - r.origin();
+   float len = length(r.direction());
+   glm::vec3 d = r.direction() / len;
 
-   float discriminant = half_b*half_b - a*c;
-   if (discriminant < 0) return false;
-   float sqrtd = sqrt(discriminant);
+   float s = glm::dot(el, d);
+   float elSqr = glm::dot(el, el);
+   float rSqr = radius*radius;
+   if (s < 0 and elSqr > rSqr) return false;
 
-   float t = (-half_b - sqrtd) / a;
-   if (t < 0) t = (-half_b + sqrtd) / a;
-   if (t < 0) return false;
+   float mSqr = elSqr - s*s;
+   if (mSqr > rSqr) return false;
 
-   // save relevant data in hit record
-   rec.t = t; // save the time when we hit the object
-   rec.p = r.at(t); // ray.origin + t * ray.direction
-   rec.mat_ptr = mat_ptr; 
+   float q = sqrt(rSqr - mSqr);
+   float t;
+   if (elSqr > rSqr) t = s - q;
+   else t = s + q;
 
-   // save normal
-   glm::vec3 outward_normal = normalize(rec.p - center); // compute unit length normal
+   rec.t = t / len;
+   rec.p = r.at(t / len);
+   rec.mat_ptr = mat_ptr;
+
+   glm::vec3 outward_normal = normalize(rec.p - center);
    rec.set_face_normal(r, outward_normal);
 
    return true;
