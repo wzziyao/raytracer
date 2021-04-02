@@ -2,6 +2,17 @@
     "cmake.configureOnOpen": false,
     "files.associations": {
         "iostream": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "random": "cpp",
+        "algorithm": "cpp",
+        "type_traits": "cpp",
+        "__node_handle": "cpp",
+        "__split_buffer": "cpp",
+        "array": "cpp",
+        "iterator": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp"
     }
 }
