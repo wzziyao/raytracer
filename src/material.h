@@ -68,7 +68,7 @@ public:
 
       glm::vec3 v = normalize(viewPos - hit.p);
       glm::vec3 r = 2 * dot(L, n) * n - L;
-      glm::color Is = ks * pow(dot(v, r), shininess) * specColor;
+      glm::color Is = ks * pow(fmax(0.0f, dot(v, r)), shininess) * specColor;
 
       glm::color final_color = Ia + Id + Is;
 
