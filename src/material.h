@@ -20,9 +20,13 @@ public:
   virtual bool scatter(const ray& r_in, const hit_record& rec, 
      glm::color& attenuation, ray& scattered) const override 
   {
-     // todo
+      glm::vec3 scatter_direction = rec.normal + random_unit_vector(); 
+      if (near_zero(scatter_direction)) {
+         scatter_direction = rec.normal;
+      }
+      scattered = ray(rec.p, scatter_direction); 
       attenuation = albedo;
-      return false;
+      return true;
   }
 
 public:
@@ -56,9 +60,20 @@ public:
   virtual bool scatter(const ray& r_in, const hit_record& hit, 
      glm::color& attenuation, ray& scattered) const override 
   {
-     // todo
-     attenuation = glm::color(0);
-     return false;
+      glm::color Ia = ka * ambientColor;
+
+      glm::vec3 L = normalize(lightPos - hit.p);
+      glm::vec3 n = normalize(hit.normal);
+      glm::color Id = kd * fmax(0.0f, dot(L, n)) * diffuseColor;
+
+      glm::vec3 v = normalize(viewPos - hit.p);
+      glm::vec3 r = 2 * dot(L, n) * n - L;
+      glm::color Is = ks * pow(dot(v, r), shininess) * specColor;
+
+      glm::color final_color = Ia + Id + Is;
+
+      attenuation = final_color;
+      return false;
   }
 
 public:
@@ -80,9 +95,15 @@ public:
    virtual bool scatter(const ray& r_in, const hit_record& rec, 
       glm::color& attenuation, ray& scattered) const override 
    {
-     // todo
+      glm::vec3 R_in = r_in.direction();
+      glm::vec3 R_out = -2 * dot(R_in, rec.normal) * rec.normal + R_in;
+      glm::vec3 scatter_direction = R_out + fuzz * random_unit_vector();
+      if (near_zero(scatter_direction)) {
+         scatter_direction = rec.normal;
+      }
+      scattered = ray(rec.p, scatter_direction); 
       attenuation = albedo;
-      return false;
+      return true;
    }
 
 public:
@@ -97,9 +118,25 @@ public:
   virtual bool scatter(const ray& r_in, const hit_record& rec, 
      glm::color& attenuation, ray& scattered) const override 
    {
-     // todo
-     attenuation = glm::color(0);
-     return false;
+      attenuation = glm::color(1.0, 1.0, 1.0);
+      float n_ratio = rec.front_face ? (1.0f / ir) : ir;
+      
+      glm::vec3 R = normalize(r_in.direction());
+      glm::vec3 n = rec.normal;
+      float cos_in = fmin(dot(-R, n), 1.0f);
+      float sin = sqrt(1.0f - cos_in * cos_in);
+
+      glm::vec3 scatter_direction;
+      if (n_ratio * sin > 1.0f) {
+         scatter_direction = -2 * dot(R, n) * n + R;
+      } else {
+         float cos_out = fmin(glm::dot(-R, n), 1.0f);
+         glm::vec3 R_perp = n_ratio * (R + cos_out * n);
+         glm::vec3 R_para = (float)-sqrt(fabs(1.0f - pow(glm::length(R_perp), 2))) * n;
+         scatter_direction = R_perp + R_para;
+      }
+     scattered = ray(rec.p, scatter_direction); 
+     return true;
    }
 
 public:
