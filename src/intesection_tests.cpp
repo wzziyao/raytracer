@@ -82,7 +82,7 @@ int main(int argc, char** argv)
 
    sphere s(point3(0), 2.0f, empty);
    plane p(point3(0), vec3(0, 0, 1), empty);
-   box b(point3(0), vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1), 0.5f, 0.5f, 0.5f, empty);
+   box b(point3(0), vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1), vec3(0.5f, 0, 0), vec3(0, 0.5f, 0), vec3(0, 0, 0.5f), empty);
    test_sphere(s, 
                ray(point3(0, 0, 3), vec3(0, 0, -1)), // ray outside/towards sphere
                true, 

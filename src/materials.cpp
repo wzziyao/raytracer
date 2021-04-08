@@ -64,16 +64,9 @@ void ray_trace(ppm_image& image)
 
    // Camera
    vec3 camera_pos(0, 0, 6);
-   // float viewport_height = 2.0f;
-   // float focal_length = 4.0; 
-   // camera cam(camera_pos, viewport_height, aspect, focal_length);
-   point3 lookfrom(3,3,2);
-   point3 lookat(0.75, 0, -1);
-   vec3 vup(0,1,0);
-   float dist_to_focus = (lookfrom-lookat).length();
-   float aperture = 0.3f;
-
-   camera cam(lookfrom, lookat, vup, 20, aspect, aperture, dist_to_focus);
+   float viewport_height = 2.0f;
+   float focal_length = 4.0; 
+   camera cam(camera_pos, viewport_height, aspect, focal_length);
 
    // World
    shared_ptr<material> gray = make_shared<lambertian>(color(0.5f));

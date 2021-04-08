@@ -41,3 +41,23 @@ raytracer/build $ ../bin/gradient
 raytracer/build $ ../bin/normals
 ```
 
+**Lambertian Material**
+
+<img src="Images/basic.png" alt="unique" width="500"/>
+
+**Materials**
+
+<img src="Images/materials.png" alt="unique" width="500"/>
+
+**Unique Features**
+
+Unique feature implemented: Defocus Blur.
+Unique image ideas used: changing the background color, using circles and boxes, changing the camera position, and applying defocus blur.
+
+<img src="Images/unique_image.png" alt="unique" width="500"/>
+
+<img src="Images/unique_image1.png" alt="unique" width="500"/>
+
+Defocus Blur:
+
+<img src="Images/blur.png" alt="unique" width="500"/>

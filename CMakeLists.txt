@@ -113,4 +113,7 @@ target_link_libraries(raytracer ${CORE})
 add_executable(materials src/materials.cpp ${RT_SOURCES} ${SOURCES})
 target_link_libraries(materials ${CORE})
 
+add_executable(unique_image src/unique_image.cpp ${RT_SOURCES} ${SOURCES})
+target_link_libraries(unique_image ${CORE})
+
 
